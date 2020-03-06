@@ -28,13 +28,15 @@ public class Main {
 
             Integer counter = 1;
             for (Coordinate cord : cords) {
+                Integer type = (Math.random() <= 0.5) ? 1 : 2;
                 String point = "POINT("+ cord.getLongitude() + " " + cord.getLatitude() +")";
-                String sqlQuery = "INSERT INTO companies (company_name, company_address, type_id, finance_office_id, tax_number, activity_code, geom) VALUES (?, ?, 1, 1, '0000000', '00.000', st_geomfromtext(?, 4326))";
+                String sqlQuery = "INSERT INTO companies (company_name, company_address, type_id, finance_office_id, tax_number, activity_code, geom) VALUES (?, ?, ?, 1, '0000000', '00.000', st_geomfromtext(?, 4326))";
 
                 PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery);
                 preparedStatement.setString(1,name + " " + counter);
                 preparedStatement.setString(2,name + " " + counter);
-                preparedStatement.setString(3, point);
+                preparedStatement.setInt(3, type);
+                preparedStatement.setString(4, point);
 
                 preparedStatement.execute();
 
